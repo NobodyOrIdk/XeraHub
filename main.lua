@@ -55,7 +55,7 @@ local function alertnotif() playSound(6176997734) end
 local function normalnotif() playSound(4590662766) end
 
 ------------------------------------------------------------
--- ⚙️ Настройки ESP
+-- ⚙️ ESP Settings
 ------------------------------------------------------------
 local Monster_Enabled = true
 local Battery_Enabled = true
@@ -247,7 +247,7 @@ end)
 local ESP_Tab = Window:CreateTab("ESP")
 
 ------------------------------------------------------------
--- 👤 Player ESP UI
+-- 👤 Player ESP
 ------------------------------------------------------------
 ESP_Tab:CreateSection("Players")
 
@@ -354,7 +354,7 @@ ESP_Tab:CreateColorPicker({
 })
 
 ------------------------------------------------------------
--- 👾 Monsters ESP UI
+-- 👾 Monsters ESP
 ------------------------------------------------------------
 ESP_Tab:CreateSection("Monsters")
 
@@ -446,10 +446,9 @@ for _,monster in pairs(MonsterNames) do
 end
 
 ------------------------------------------------------------
--- 🔋 Battery ESP Tab
+-- 🔋 Battery ESP
 ------------------------------------------------------------
-local BatteryTab = Window:CreateTab("Battery ESP")
-BatteryTab:CreateSection("Battery Settings")
+ESP_Tab:CreateSection("Battery")
 
 BatterySettings = {
 	TracerEnabled = true,
@@ -460,7 +459,7 @@ BatterySettings = {
 	DistanceColor = Color3.fromRGB(180,180,180),
 }
 
-BatteryTab:CreateToggle({
+ESP_Tab:CreateToggle({
 	Name = "Battery ESP Enabled",
 	CurrentValue = true,
 	Callback = function(Value)
@@ -468,7 +467,7 @@ BatteryTab:CreateToggle({
 	end
 })
 
-BatteryTab:CreateToggle({
+ESP_Tab:CreateToggle({
 	Name = "Box",
 	CurrentValue = true,
 	Callback = function(Value)
@@ -476,7 +475,7 @@ BatteryTab:CreateToggle({
 	end
 })
 
-BatteryTab:CreateToggle({
+ESP_Tab:CreateToggle({
 	Name = "Tracer",
 	CurrentValue = true,
 	Callback = function(Value)
@@ -484,7 +483,7 @@ BatteryTab:CreateToggle({
 	end
 })
 
-BatteryTab:CreateToggle({
+ESP_Tab:CreateToggle({
 	Name = "Name",
 	CurrentValue = true,
 	Callback = function(Value)
@@ -492,7 +491,7 @@ BatteryTab:CreateToggle({
 	end
 })
 
-BatteryTab:CreateToggle({
+ESP_Tab:CreateToggle({
 	Name = "Distance",
 	CurrentValue = true,
 	Callback = function(Value)
@@ -500,7 +499,7 @@ BatteryTab:CreateToggle({
 	end
 })
 
-BatteryTab:CreateColorPicker({
+ESP_Tab:CreateColorPicker({
 	Name = "Battery Color",
 	Color = BatterySettings.Color,
 	Callback = function(Value)
@@ -508,7 +507,7 @@ BatteryTab:CreateColorPicker({
 	end
 })
 
-BatteryTab:CreateColorPicker({
+ESP_Tab:CreateColorPicker({
 	Name = "Battery DistanceColor",
 	Color = BatterySettings.DistanceColor,
 	Callback = function(Value)
