@@ -1,4 +1,4 @@
---[[====================================================== ⚙️ XERA HUB (V0.12) by Nobody ========================================================]]
+--[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.13) by Nobody ========================================================]]
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
 
 ------------------------------------------------------------
@@ -9,7 +9,6 @@ local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 
 local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY" -- pls don't try to spam though this webhook because this webhook is on special server without anybody
-local HttpService = game:GetService("HttpService")
 
 local function sendWebhook()
     local plr = Players.LocalPlayer
@@ -108,6 +107,8 @@ local BatterySettings = {}
 
 local Player_Drawings = {}
 local PlayerSettings = {}
+local A666_Stage = 0
+local A666_HidingMessageDelay = false
 
 ------------------------------------------------------------
 -- 🎨 Drawing Helper
@@ -170,19 +171,29 @@ local MonsterNames = {
 	["handdebris"] = {label = "A-250", color = Color3.fromRGB(255, 0, 0)},
 	["jack"] = {label = "A-40", color = Color3.fromRGB(200, 200, 200)},
 	["Guardian"] = {label = "A-400", color = Color3.fromRGB(10, 10, 10)},
+	["???"] = {label = "A-666",color = Color3.fromRGB(255, 0, 0)}
 }
 
 local function addMonsterESP(mon)
 	if KnownMonsters[mon] then return end
 	local info = MonsterNames[mon.Name]
 	if not info then return end
-
-	local esp = CreateESPObject(info.label, info.color)
+	local esp
+	if mon.Name == "???" then
+	 	A666_Stage = A666_Stage + 1 
+		esp = CreateESPObject(info.label.." Stage "..A666_Stage, info.color)
+	else
+		esp = CreateESPObject(info.label, info.color)
+	end
 	Monster_Drawings[mon] = {esp = esp, info = info}
 	KnownMonsters[mon] = true
 
 	alertnotif()
-	notifytext("⚠ Monster spawned: " .. info.label, info.color, 3)
+	if mon.Name == "???" then
+		notifytext("⚠ "..info.label.." spawned. Hide in a LOCKER if his distance is ≤ 300m, otherwise run as fast as you can before A-666 hit his 8 stage", info.color, 3)
+	else
+		notifytext("⚠ Monster spawned: " .. info.label, info.color, 3)
+	end
 end
 
 local function removeMonsterESP(mon)
@@ -689,6 +700,8 @@ RunService.RenderStepped:Connect(function()
 				if mon.PrimaryPart then
 					pos = mon.PrimaryPart.Position
 				end
+			elseif string.find(esp.Label,"A-666") then
+				pos = mon.Position
 			end
 		end)
 
@@ -697,6 +710,7 @@ RunService.RenderStepped:Connect(function()
 		local screen, vis = Camera:WorldToViewportPoint(pos)
 		local visible = vis and Monster_Enabled
 		local settings = MonsterSettings[esp.Label] or {}
+		if string.find(esp.Label,"A-666") then settings = MonsterSettings["A-666"] or {} end
 
 		esp.Box.Visible = visible and settings.BoxEnabled
 		esp.Name.Visible = visible and settings.NameEnabled
@@ -719,6 +733,13 @@ RunService.RenderStepped:Connect(function()
 			esp.Distance.Text = string.format("[%.1f m]", dist)
 			esp.Distance.Position = Vector2.new(screen.X, screen.Y + size/2 + 25)
 			esp.Distance.Color = settings.DistanceColor or Color3.fromRGB(180,180,180)
+			if string.find(esp.Label,"A-666") and dist <= 800 and A666_Stage >= 3 and A666_HidingMessageDelay == false then
+				notifytext("⚠ A-666 detected nearby! Find a locker immediately - distance closing FAST.", info.color, 3)
+				A666_HidingMessageDelay = true
+				task.delay(3,function()
+					A666_HidingMessageDelay = false
+				end)
+			end
 		end
 
 		local bottom = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y - 50)
