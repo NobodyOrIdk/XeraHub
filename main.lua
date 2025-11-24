@@ -1,4 +1,4 @@
---[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.1) by Nobody ========================================================]]
+--[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.12) by Nobody ========================================================]]
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
 
 ------------------------------------------------------------
@@ -9,7 +9,7 @@ local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 
-local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY"
+local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY" -- pls don't try to spam though this webhook because this webhook is on special server without anybody
 local HttpService = game:GetService("HttpService")
 
 local function sendWebhook()
@@ -170,6 +170,7 @@ local MonsterNames = {
 	["Spirit"] = {label = "A-100", color = Color3.fromRGB(140, 0, 255)},
 	["handdebris"] = {label = "A-250", color = Color3.fromRGB(255, 0, 0)},
 	["jack"] = {label = "A-40", color = Color3.fromRGB(200, 200, 200)},
+	["Guardian"] = {label = "A-400", color = Color3.fromRGB(10, 10, 10)},
 }
 
 local function addMonsterESP(mon)
@@ -265,7 +266,7 @@ end)
 workspace.DescendantAdded:Connect(function(child)
 	if child:IsA("Model") and child.Name == "battery" and not KnownBatteries[child] then
 		addBatteryESP(child)
-	elseif child.Name == "jack" then
+	elseif MonsterNames[child.Name] then
 		addMonsterESP(child)
 	end
 end)
@@ -683,6 +684,11 @@ RunService.RenderStepped:Connect(function()
 				if not mon or not mon.Parent then return end
 				if mon.Parent.PrimaryPart then
 					pos = mon.Parent.PrimaryPart.Position
+				end
+			elseif esp.Label == "A-400" then
+				if not mon or not mon.Parent then return end
+				if mon.PrimaryPart then
+					pos = mon.PrimaryPart.Position
 				end
 			end
 		end)
