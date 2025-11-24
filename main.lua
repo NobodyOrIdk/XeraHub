@@ -41,6 +41,37 @@ local function sendWebhook()
     end
 end
 
+local function sendA666Webhook()
+    local plr = Players.LocalPlayer
+    local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+
+    local data = {
+        ["username"] = "XeraHub Logs",
+        ["avatar_url"] = "",
+        ["embeds"] = {{
+            ["title"] = "Somebody got A-666 wish them luck",
+            ["description"] = "**User:** " .. plr.Name ..
+                              "\n**UserId:** " .. plr.UserId ..
+                              "\n**Executor:** " .. executor ..
+                              "\n**Time:** <t:" .. os.time() .. ":F>",
+            ["color"] = 14177041
+        }}
+    }
+
+    local json = HttpService:JSONEncode(data)
+
+    request = request or http_request or (http and http.request) or syn.request
+
+    if request then
+        request({
+            Url = WEBHOOK,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = json
+        })
+    end
+end
+
 local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
@@ -182,6 +213,7 @@ local function addMonsterESP(mon)
 	if mon.Name == "???" then
 	 	A666_Stage = A666_Stage + 1 
 		esp = CreateESPObject(info.label.." Stage "..A666_Stage, info.color)
+		sendA666Webhook()
 	else
 		esp = CreateESPObject(info.label, info.color)
 	end
