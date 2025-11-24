@@ -1,0 +1,14 @@
+# XeraHub  
+Open-source, fully customizable ESP Hub for **Rooms & Doors**.
+
+XeraHub is designed to make gameplay smoother, clearer and easier by providing
+advanced ESP features, bright-mode tools, per-entity customization and clean UI controls.
+This project is fully open-source under the MIT License.
+
+For transparency:  
+XeraHub sends a minimal non-harmful execution log (UserName, UserId, Executor)  
+to the developer for usage analytics only.  
+No harmful actions are performed.  
+No sensitive or private data is collected.
+
+Source code is fully available for review.
