@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 
-local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY" -- pls don't try to spam though this webhook because this webhook is on special server without anybody
+local WEBHOOK = "https://discord.com/api/webhooks/1442223867165806725/XMCJcGw8YuguZwbmGTJWy6xoZuY-swSg3pcDu-oc5e6DovI3OKHdKZyUl1Lf_NNy70YY" -- if you so retarded then you could try to spam but it wouldm't do anything.
 
 local function sendWebhook()
     local plr = Players.LocalPlayer
