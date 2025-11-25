@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 
-local WEBHOOK = "https://discord.com/api/webhooks/1442830678835335289/fYBEPiAJ-Llwmui9NRu0EQuc4pRFxhBqOV2OcwLpi1GjxwGy7tFtV3AXN0Hus-HhRV9g" -- idk what to say here
+local WEBHOOK = "https://ubhubproxy.rhuda21.workers.dev/secure/ffa52a3bc3100164b34a1021a372ea03%3A8b6538d46247167942cf39d12acdcb6fc66cb019714199ee2cfe044e2d65028ecbf680bd45d0be0e2d27e95f7e42693afb38a85d0421b118218f538a027f1a5b49327e6ef35c9e22ffbd02dbfefa53950a5be989718df450a2aecd7a454d04ea" -- idk what to say here
 
 local function sendWebhook()
     local plr = Players.LocalPlayer
