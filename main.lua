@@ -12,44 +12,13 @@ local WEBHOOK = "https://discord.com/api/webhooks/1442830678835335289/fYBEPiAJ-L
 
 local function sendWebhook()
     local plr = Players.LocalPlayer
-    local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+    local executor = identifyexecutor() or "Unknown"
 
     local data = {
         ["username"] = "XeraHub Logs",
         ["avatar_url"] = "",
         ["embeds"] = {{
             ["title"] = "New XeraHub Execution",
-            ["description"] = "**User:** " .. plr.Name ..
-                              "\n**UserId:** " .. plr.UserId ..
-                              "\n**Executor:** " .. executor ..
-                              "\n**Time:** <t:" .. os.time() .. ":F>",
-            ["color"] = 14177041
-        }}
-    }
-
-    local json = HttpService:JSONEncode(data)
-
-    request = request or http_request or (http and http.request) or syn.request
-
-    if request then
-        request({
-            Url = WEBHOOK,
-            Method = "POST",
-            Headers = {["Content-Type"] = "application/json"},
-            Body = json
-        })
-    end
-end
-
-local function sendA666Webhook()
-    local plr = Players.LocalPlayer
-    local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
-
-    local data = {
-        ["username"] = "XeraHub Logs",
-        ["avatar_url"] = "",
-        ["embeds"] = {{
-            ["title"] = "Somebody got A-666 wish them luck",
             ["description"] = "**User:** " .. plr.Name ..
                               "\n**UserId:** " .. plr.UserId ..
                               "\n**Executor:** " .. executor ..
