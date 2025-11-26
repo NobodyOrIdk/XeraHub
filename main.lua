@@ -1,4 +1,4 @@
---[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.13) by Nobody ========================================================]]
+--[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.14) by Nobody ========================================================]]
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
 
 ------------------------------------------------------------
@@ -171,18 +171,47 @@ local MonsterNames = {
 	["handdebris"] = {label = "A-250", color = Color3.fromRGB(255, 0, 0)},
 	["jack"] = {label = "A-40", color = Color3.fromRGB(200, 200, 200)},
 	["Guardian"] = {label = "A-400", color = Color3.fromRGB(10, 10, 10)},
-	["???"] = {label = "A-666",color = Color3.fromRGB(255, 0, 0)}
+	["???"] = {label = "A-666",color = Color3.fromRGB(255, 0, 0)},
+	["evilbunger"] = {label = "Evil Bunger",color = Color3.fromRGB(255, 165, 0)},
+}
+
+local PrimeNames = {
+	["monster"] = {label = "A-60'", color = Color3.fromRGB(0, 0, 255),checkParamChildren = "Static",checkParamName = "SoundId",checkParamValue = "8028069841"},
 }
 
 local function addMonsterESP(mon)
+	task.wait()
 	if KnownMonsters[mon] then return end
 	local info = MonsterNames[mon.Name]
 	if not info then return end
+	local PrimeInfo = PrimeNames[mon.Name]
+	print(PrimeInfo)
+	if PrimeInfo then
+		local ParamChildren = mon:FindFirstChild(PrimeInfo.checkParamChildren, true)
+		print(ParamChildren)
+
+		if ParamChildren and ParamChildren:IsA("Sound") then
+			if not ParamChildren.IsLoaded then ParamChildren.Loaded:Wait() end
+		end
+		
+		if ParamChildren then
+			local property = ParamChildren[PrimeInfo.checkParamName] or "null"
+			print(property)
+			local prime = false
+			if typeof(PrimeInfo.checkParamValue) == "string" then
+				if string.find(property,PrimeInfo.checkParamValue) then prime = true end
+			else
+				if ParamChildren[PrimeInfo.checkParamName] == PrimeInfo.checkParamValue then prime = true end
+			end
+			
+			if prime then info = PrimeInfo end
+			print(prime)
+		end
+	end
 	local esp
 	if mon.Name == "???" then
 	 	A666_Stage = A666_Stage + 1 
 		esp = CreateESPObject(info.label.." Stage "..A666_Stage, info.color)
-		sendA666Webhook()
 	else
 		esp = CreateESPObject(info.label, info.color)
 	end
@@ -191,7 +220,7 @@ local function addMonsterESP(mon)
 
 	alertnotif()
 	if mon.Name == "???" then
-		notifytext("⚠ "..info.label.." spawned. Hide in a LOCKER if his distance is ≤ 300m, otherwise run as fast as you can before A-666 hit his 8 stage", info.color, 3)
+		notifytext("⚠ "..info.label.." spawned. Hide in a LOCKER if his distance is ≤ 400m, otherwise run as fast as you can before A-666 hit his 8 stage", info.color, 3)
 	else
 		notifytext("⚠ Monster spawned: " .. info.label, info.color, 3)
 	end
@@ -270,11 +299,12 @@ Players.PlayerRemoving:Connect(removePlayerESP)
 ------------------------------------------------------------
 -- 🔍 Entity Registration
 ------------------------------------------------------------
+local rooms = workspace:WaitForChild("rooms",10)
 workspace.ChildAdded:Connect(function(obj)
 	if MonsterNames[obj.Name] then addMonsterESP(obj) end
 end)
 
-workspace.DescendantAdded:Connect(function(child)
+rooms.DescendantAdded:Connect(function(child)
 	if child:IsA("Model") and child.Name == "battery" and not KnownBatteries[child] then
 		addBatteryESP(child)
 	elseif MonsterNames[child.Name] then
@@ -416,6 +446,86 @@ ESP_Tab:CreateToggle({
 })
 
 for _,monster in pairs(MonsterNames) do
+	ESP_Tab:CreateSection(monster.label)
+
+	MonsterSettings[monster.label] = {
+		TracerEnabled = true,
+		NameEnabled = true,
+		DistanceEnabled = true,
+		BoxEnabled = true,
+		BoxColor = monster.color,
+		TracerColor = monster.color,
+		NameColor = monster.color,
+		DistanceColor = Color3.fromRGB(180,180,180),
+	}
+
+	ESP_Tab:CreateToggle({
+		Name = monster.label.." Box",
+		CurrentValue = true,
+		Callback = function(Value)
+			MonsterSettings[monster.label].BoxEnabled = Value
+		end
+	})
+
+	ESP_Tab:CreateColorPicker({
+		Name = monster.label.." BoxColor",
+		Color = monster.color,
+		Callback = function(Value)
+			MonsterSettings[monster.label].BoxColor = Value
+		end
+	})
+
+	ESP_Tab:CreateToggle({
+		Name = monster.label.." Tracer",
+		CurrentValue = true,
+		Callback = function(Value)
+			MonsterSettings[monster.label].TracerEnabled = Value
+		end
+	})
+
+	ESP_Tab:CreateColorPicker({
+		Name = monster.label.." TracerColor",
+		Color = monster.color,
+		Callback = function(Value)
+			MonsterSettings[monster.label].TracerColor = Value
+		end
+	})
+
+	ESP_Tab:CreateToggle({
+		Name = monster.label.." Name",
+		CurrentValue = true,
+		Callback = function(Value)
+			MonsterSettings[monster.label].NameEnabled = Value
+		end
+	})
+
+	ESP_Tab:CreateColorPicker({
+		Name = monster.label.." NameColor",
+		Color = monster.color,
+		Callback = function(Value)
+			MonsterSettings[monster.label].NameColor = Value
+		end
+	})
+
+	ESP_Tab:CreateToggle({
+		Name = monster.label.." Distance",
+		CurrentValue = true,
+		Callback = function(Value)
+			MonsterSettings[monster.label].DistanceEnabled = Value
+		end
+	})
+
+	ESP_Tab:CreateColorPicker({
+		Name = monster.label.." DistanceColor",
+		Color = MonsterSettings[monster.label].DistanceColor,
+		Callback = function(Value)
+			MonsterSettings[monster.label].DistanceColor = Value
+		end
+	})
+end
+
+ESP_Tab:CreateSection("Primes")
+for _,monster in pairs(PrimeNames) do
 	ESP_Tab:CreateSection(monster.label)
 
 	MonsterSettings[monster.label] = {
@@ -735,7 +845,7 @@ RunService.RenderStepped:Connect(function()
 			esp.Distance.Position = Vector2.new(screen.X, screen.Y + size/2 + 25)
 			esp.Distance.Color = settings.DistanceColor or Color3.fromRGB(180,180,180)
 			if string.find(esp.Label,"A-666") and dist <= 800 and A666_Stage >= 3 and A666_HidingMessageDelay == false then
-				notifytext("⚠ A-666 detected nearby! Find a locker immediately - distance closing FAST.", info.color, 3)
+				notifytext("⚠ A-666 detected nearby! Find a locker immediately - distance closing FAST.", data.color, 3)
 				A666_HidingMessageDelay = true
 				task.delay(3,function()
 					A666_HidingMessageDelay = false
