@@ -185,10 +185,8 @@ local function addMonsterESP(mon)
 	local info = MonsterNames[mon.Name]
 	if not info then return end
 	local PrimeInfo = PrimeNames[mon.Name]
-	print(PrimeInfo)
 	if PrimeInfo then
 		local ParamChildren = mon:FindFirstChild(PrimeInfo.checkParamChildren, true)
-		print(ParamChildren)
 
 		if ParamChildren and ParamChildren:IsA("Sound") then
 			if not ParamChildren.IsLoaded then ParamChildren.Loaded:Wait() end
@@ -196,7 +194,6 @@ local function addMonsterESP(mon)
 		
 		if ParamChildren then
 			local property = ParamChildren[PrimeInfo.checkParamName] or "null"
-			print(property)
 			local prime = false
 			if typeof(PrimeInfo.checkParamValue) == "string" then
 				if string.find(property,PrimeInfo.checkParamValue) then prime = true end
@@ -205,7 +202,6 @@ local function addMonsterESP(mon)
 			end
 			
 			if prime then info = PrimeInfo end
-			print(prime)
 		end
 	end
 	local esp
