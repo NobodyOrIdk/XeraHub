@@ -18,7 +18,7 @@ local Obsidian_SaveManager = loadstring(game:HttpGet(Obsidian_repo .. "addons/Sa
 --// Constants
 local PLACE_ID = game.PlaceId
 local SUPPORTED_GAMES = {
-    [12208518151] = "test_repo"
+    [12208518151] = "https://raw.githubusercontent.com/NobodyOrIdk/XeraHub/refs/heads/main/v1.lua"
 }
 
 --// Helpers
