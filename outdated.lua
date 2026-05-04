@@ -1,5 +1,5 @@
 
---[[====================================================== ⚙️ XERA HUB — MONSTER, PLAYER & BATTERY ESP (V0.14) by Nobody ========================================================]]
+--[[====================================================== ⚙️ XERA HUB [Outdated] — MONSTER, PLAYER & BATTERY ESP (V0.14) by Nobody[Nobody_works] ========================================================]]
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
 
 ------------------------------------------------------------
